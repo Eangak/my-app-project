@@ -14,7 +14,12 @@ pipeline {
           // Parameter for selecting the deployment action
         choice(name: 'ACTION',choices: ['deploy', 'rollback'],description: 'Choose whether to deploy a new version or rollback to a previous version.')
     }
-    
+    post {
+        always {
+            echo "Cleaning up workspace..."
+            cleanWs()
+        }
+    }
     stages {
         stage('Checkout Code') {
             steps {
@@ -33,6 +38,44 @@ pipeline {
                               userRemoteConfigs: [[url: env.GITHUB_REPOSITORY]]
                           ])
                       }
+                }
+            }
+        }
+        stage('Build') {
+            steps {
+                script {
+                    echo "Building the application..."
+                    // Add your build commands here
+                }
+            }
+        }
+        stage('push') {
+            steps {
+                script {
+                    echo "Pushing the application..."
+                    // Add your push commands here
+                }
+            }
+        }
+        stage('Deploy') {
+            when {
+                expression { params.ACTION == 'deploy' }
+            }
+            steps {
+                script {
+                    echo "Deploying the application..."
+                    // Add your deployment commands here
+                }
+            }
+        }
+        stage('Rollback') {
+            when {
+                expression { params.ACTION == 'rollback' }
+            }
+            steps {
+                script {
+                    echo "Rolling back the application..."
+                    // Add your rollback commands here
                 }
             }
         }
