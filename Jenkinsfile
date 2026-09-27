@@ -5,7 +5,7 @@ pipeline {
     
     environment {
         // Registry & Container Configuration
-        GITHUB_REPOSITORY="https://github.com/krolnoeurn36/usea-first-app.git"
+        GITHUB_REPOSITORY="https://github.com/Eangak/my-app-project.git"
     }
     
     parameters {
